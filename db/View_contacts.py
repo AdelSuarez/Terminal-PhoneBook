@@ -9,13 +9,12 @@ class View_contacts:
 		self._result = DataBase(self._query, ).fetchall()
 
 		if self._result != []:
-			print('')
-			print('		*AGENDA*')
+			print('\n		*AGENDA*')
 			for name, number in self._result:
 				print(f'Nombre: {name} | Número: {number}')
-		else:
-			print('')
-			print('		*AGENDA*')
-			print('-Vacía-')
+				
+		else:	
+			print('\n		*AGENDA* \n-Vacía-')
+
 
 
