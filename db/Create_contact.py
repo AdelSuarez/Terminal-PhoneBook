@@ -7,10 +7,7 @@ class Create_contact:
 
 
     def create(self):
-        '''   
-            observation: two loops are created for each input, so that when the 
-            number is incorrectly entered it does not start from the name
-        '''
+
         self.name = Components.varify_name().strip()
         
         while True:

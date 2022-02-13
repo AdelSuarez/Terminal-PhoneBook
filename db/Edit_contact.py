@@ -6,31 +6,35 @@ class Edit_contact:
         self.edit()
 
     def edit(self):
-        while True:
-            print('''
-            *OPCION EDITAR*
+        if Components.all_contacts() != []:
+            while True:
+                print('''
+                *OPCION EDITAR*
         * Editar Nombre | Presione 1
         * Editar Número | Presione 2
         * Regresar      | Presione 0
-            ''')
-            while True:
-                try:
-                    self.option = int(input('Introduce la opcion: '))
-                    if not(-1 < self.option < 3):
-                        print('*Opcion incorrecta*')
-                        continue
+                ''')
+                while True:
+                    try:
+                        self.option = int(input('Introduce la opcion: '))
+                        if not(-1 < self.option < 3):
+                            print('*Opcion incorrecta*')
+                            continue
+                        break
+                    except ValueError:
+                        print('*Introduce solo números*')
+
+                if self.option == 1:
+                    self.edit_name()
+
+                elif self.option == 2:
+                    self.edit_number()
+                    
+                elif self.option == 0:
                     break
-                except ValueError as e:
-                    print('*Introduce solo números*', e)
+        else:
+            print('\n     *Agenda* \n-vacia-')
 
-            if self.option == 1:
-                self.edit_name()
-
-            elif self.option == 2:
-                self.edit_number()
-                
-            elif self.option == 0:
-                break
 
 
     def edit_name(self):
@@ -38,9 +42,7 @@ class Edit_contact:
             print('')
             self.name = Components.varify_name().strip()
 
-            self._verified_name = Components.search_name(self.name)
-
-            if self._verified_name != []:
+            if Components.search_name(self.name) != []:
                 while True:
                     self.new_name = input('Introduce el nuevo nombre: ')
                     if (len(self.new_name) == 0):
@@ -53,7 +55,7 @@ class Edit_contact:
                 DataBase(self._query, self._parameters)
                 print('\n*Contacto actualizado con éxito*')
                 break
-            elif self._verified_name == []:
+            else:
                 print('\n*No existe el contacto*')
 
     def edit_number(self):
@@ -61,20 +63,19 @@ class Edit_contact:
             print('')
             self.name = Components.varify_name().strip()
 
-            self._verified_name = Components.search_name(self.name)
-            if self._verified_name != []:
+            if Components.search_name(self.name) != []:
                 while True:
                     try:
                         self.new_number = int(input('Introduce el nuevo numero: '))
                         break
-                    except ValueError as e:
+                    except ValueError:
                         print('*Se a producido un error*')
 
-                self._parameters = (self.new_number, self.name.strip())
+                self._parameters = (self.new_number, self.name)
                 self._query = 'UPDATE CONTACTOS SET NUMERO = ? WHERE NOMBRE = ?'
                 DataBase(self._query, self._parameters)
                 print('\n*Contacto actualizado con éxito*')
                 break
 
-            elif self._verified_name == []:
+            else:
                 print('\n*No existe el contacto*')

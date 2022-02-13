@@ -37,8 +37,7 @@ class Manager:
                 try:
                     self.create_agenda()
                 except:
-                    print('')
-                    print('*Ya existe una agenda*')
+                    print('\n*Ya existe una agenda*')
 
             elif option == 2:
                 contact = Create_contact()
@@ -60,5 +59,4 @@ class Manager:
     def create_agenda(self):
         self._query = 'CREATE TABLE CONTACTOS (NOMBRE VARCHAR(15), NUMERO INTEGER)'
         if DataBase(self._query, ):
-            print('')
-            print('*Agenda creada*')
+            print('\n*Agenda creada*')

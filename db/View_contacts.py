@@ -1,18 +1,16 @@
-from db.DataBase import DataBase
+from components.components import Components
 
 class View_contacts:
 	def __init__(self):
 		self.contacts()
 
 	def contacts(self):
-		self._query = 'SELECT * FROM CONTACTOS'
-		self._result = DataBase(self._query, ).fetchall()
 
-		if self._result != []:
+		if Components.all_contacts() != []:
 			print('\n		*AGENDA*')
-			for name, number in self._result:
+			for name, number in Components.all_contacts():
 				print(f'Nombre: {name} | Número: {number}')
-				
+
 		else:	
 			print('\n		*AGENDA* \n-Vacía-')
 
