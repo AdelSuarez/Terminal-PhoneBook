@@ -26,7 +26,7 @@ class Manager:
                 try:
                     option = int(input('Selecciona una opción: '))
                     if not(-1 < option < 6):
-                        print('Opcion incorrecta')
+                        print('Opción incorrecta')
                         continue
                     break
                 except ValueError:

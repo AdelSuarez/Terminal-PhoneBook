@@ -21,7 +21,7 @@ class Delete_contact:
                     print('*No existe el contacto*')
 
             else:
-                print('\n     *Agenda* \n-vacia-')
+                print('\n     *Agenda* \n-vacía-')
                 break
 
 

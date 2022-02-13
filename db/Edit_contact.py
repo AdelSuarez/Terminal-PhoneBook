@@ -18,7 +18,7 @@ class Edit_contact:
                     try:
                         self.option = int(input('Introduce la opcion: '))
                         if not(-1 < self.option < 3):
-                            print('*Opcion incorrecta*')
+                            print('*Opción incorrecta*')
                             continue
                         break
                     except ValueError:
@@ -33,7 +33,7 @@ class Edit_contact:
                 elif self.option == 0:
                     break
         else:
-            print('\n     *Agenda* \n-vacia-')
+            print('\n     *Agenda* \n-vacía-')
 
 
 
@@ -66,7 +66,7 @@ class Edit_contact:
             if Components.search_name(self.name) != []:
                 while True:
                     try:
-                        self.new_number = int(input('Introduce el nuevo numero: '))
+                        self.new_number = int(input('Introduce el nuevo número: '))
                         break
                     except ValueError:
                         print('*Se a producido un error*')
