@@ -50,7 +50,7 @@ class Edit_contact:
                         continue
                     break
 
-                self._parameters = (self.new_name.strip(), self.name.strip())
+                self._parameters = (self.new_name.strip(), self.name)
                 self._query = 'UPDATE CONTACTOS SET NOMBRE = ? WHERE NOMBRE = ?'
                 DataBase(self._query, self._parameters)
                 print('\n*Contacto actualizado con éxito*')
