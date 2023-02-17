@@ -1,11 +1,10 @@
 import sqlite3 as sql
 
 class DataBase:
-    def __init__(self, query, parameters = ()):
+    def __init__(self, query, parameters = (), db = 'DataBase.db'):
         self._query = query
         self._parameters = parameters
-        self._database = 'DataBase.db'
-        self.db()
+        self._database = db
 
     def db(self):
         self.conn = sql.connect(self._database)
@@ -17,5 +16,3 @@ class DataBase:
     def fetchall(self):
         return self.db().fetchall()
 
-
-    
