@@ -15,15 +15,6 @@ class Components:
                 break
             return name
 
-    def search_name(contact):
-        parameters = (contact, )
-        query = 'SELECT * FROM CONTACT WHERE NAME like ?'
-        return DataBase(query, parameters ).db().fetchall()
-
-    def all_contacts():
-        query = 'SELECT * FROM CONTACT'
-        return DataBase(query, ).db().fetchall()
-
     def view_message(is_view, is_message):
         if is_view:
             print(is_message.center(setting.SPACE, setting.CARACTER))

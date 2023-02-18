@@ -1,5 +1,6 @@
 from components.components import Components
 import settings.settings as setting
+from db.DataBase import DataBase as db
 import os
 
 
@@ -8,9 +9,9 @@ class View_contacts:
 	def contacts(self):
 		os.system ("cls")
 		while True:
-			if Components.all_contacts() != []:
+			if db().all_contacts() != []:
 				print('\n	*AGENDA*')
-				for name, number in Components.all_contacts():
+				for name, number in db().all_contacts():
 					print(f'Nombre: {name} | Número: {number}')
 
 			else:	

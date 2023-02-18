@@ -1,6 +1,6 @@
 import os
-from db.DataBase import DataBase
-from components.components import Components
+from db.DataBase import DataBase as db
+from components.components import Components as com
 import settings.settings as setting
 
 class Create_contact:
@@ -23,11 +23,10 @@ class Create_contact:
                     Create_contact.is_message = 'Introduce solo números'
 
             if self._option == 1:
-                os.system ("cls") 
                 self._options_create()
 
             elif self._option == 0:
-                os.system ("cls") 
+                os.system ("cls")
                 break
 
             else:
@@ -39,8 +38,8 @@ class Create_contact:
         while True:
             try:
                 os.system ("cls") 
-                Components.view_message(Create_contact.is_view, Create_contact.is_message) 
-                self._name = Components.varify_name().strip()
+                com.view_message(Create_contact.is_view, Create_contact.is_message) 
+                self._name = com.varify_name().strip()
                 self._number = int(input('Número: '))
                 Create_contact.is_view = False
                 break
@@ -48,21 +47,13 @@ class Create_contact:
                 Create_contact.is_view = True
                 Create_contact.is_message = 'Introduce solo números'
 
-        self._createUser(self._name, self._number)
-        print('Contacto creado con éxito'.center(setting.SPACE, setting.CARACTER))
-        print(f'Nombre: {self._name} | Número: {self._number}\n')
+        db().create_contact(self._name, self._number)
+        Create_contact.is_view = True
+        Create_contact.is_message = 'Contacto creado con exito'
 
     def _view_welcome(sefl):
-        os.system ("cls") 
-        Components.view_message(Create_contact.is_view, Create_contact.is_message)
+        os.system ("cls")
+        com.view_message(Create_contact.is_view, Create_contact.is_message)
         print('Nuevo cotacto'.center(setting.SPACE, setting.CARACTER))
         print('\n* Crear contacto | Presione 1\n* Regresar       | Presione 0\n')
         Create_contact.is_view = False
-
-    def _createUser(self, name, number):
-        self._parameters = (name, number)
-        self._query = 'INSERT INTO CONTACT VALUES(?,?)'
-        DataBase(self._query,self._parameters).db()
-        os.system ("cls") 
-
-
