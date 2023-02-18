@@ -8,26 +8,31 @@ class Delete_contact:
     is_message = ''
 
     def delete(self):
+        if db().all_contacts() != []:
 
-        while True:
             while True:
-                self._view_welcome()
-                try:
-                    self._option = int(input('Introduce la opcion >> '))
-                    if not(0 <= self._option < 2 ):
+                while True:
+                    self._view_welcome()
+                    try:
+                        self._option = int(input('Introduce la opcion >> '))
+                        if not(0 <= self._option < 2 ):
+                            Delete_contact.is_view = True
+                            Delete_contact.is_message = 'Opción incorrecta'                        
+                            continue
+                        break
+                    except Exception:
                         Delete_contact.is_view = True
-                        Delete_contact.is_message = 'Opción incorrecta'                        
-                        continue
+                        Delete_contact.is_message = 'Introduce solo números'
+                
+                if self._option == 1:
+                    self._delete_contact()
+                elif self._option == 0:
+                    os.system ("cls")
                     break
-                except Exception:
-                    Delete_contact.is_view = True
-                    Delete_contact.is_message = 'Introduce solo números'
-            
-            if self._option == 1:
-                self._delete_contact()
-            elif self._option == 0:
-                os.system ("cls")
-                break
+        else:
+            os.system ("cls")
+            setting.message_empty_calendar()
+
 
 
     def _delete_contact(self):
