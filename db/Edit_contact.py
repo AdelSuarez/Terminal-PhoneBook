@@ -12,6 +12,7 @@ class Edit_contact:
         self._mian_edit()
 
     def _mian_edit(self):
+        Edit_contact.is_view = False
         if db().all_contacts() != []:
             while True:
                 while True:
@@ -37,6 +38,7 @@ class Edit_contact:
                     os.system ("cls")
                     break
         else:
+            os.system ("cls")
             setting.message_empty_calendar()
 
 
@@ -47,10 +49,10 @@ class Edit_contact:
         while True:
             os.system ("cls")
             com.view_message(Edit_contact.is_view, Edit_contact.is_message)
-            print('Editar nombre'.center(setting.SPACE, setting.CARACTER))
-            self._name = com.varify_name().strip()
+            self._name = com.varify_name('EDITAR NOMBRE').strip()
 
             if db().search_name_db(self._name) != []:
+                is_corret = False
                 Edit_contact.is_view = False
                 while True:
                     if Edit_contact.is_view:
@@ -62,25 +64,28 @@ class Edit_contact:
                     if (len(self._new_name) == 0):
                         Edit_contact.is_view = True
                         Edit_contact.is_message = 'Por Favor introduce el nombre'
-                        continue
+                        break
+                    is_corret = True
                     break
 
-                self._parameters = (self._new_name.strip(), self._name)
-                db().update_name(self._parameters)
-                Edit_contact.is_view = True
-                Edit_contact.is_message = 'Nombre actualizado con exito'
-                break
+                if is_corret:
+                    self._parameters = (self._new_name.strip(), self._name)
+                    db().update_name(self._parameters)
+                    Edit_contact.is_view = True
+                    Edit_contact.is_message = 'Nombre actualizado con exito'
+                    break
             else:
                 Edit_contact.is_view = True
                 Edit_contact.is_message = 'No existe el contacto'
 
     def _edit_number(self):
+        is_corret = False
+
         Edit_contact.is_view = False
         while True:
             os.system ("cls")
             com.view_message(Edit_contact.is_view, Edit_contact.is_message)
-            print('Editar número'.center(setting.SPACE, setting.CARACTER))
-            self._name = com.varify_name().strip()
+            self._name = com.varify_name('EDITAR NUMERO').strip()
             if db().search_name_db(self._name) != []:
                 Edit_contact.is_view = False
                 while True:
@@ -90,16 +95,20 @@ class Edit_contact:
                     try:
                         print('Introduce el nuevo número:')
                         self._new_number = int(input('>> '))
+                        is_corret = True
                         break
                     except Exception:
                         Edit_contact.is_view = True
-                        Edit_contact.is_message = 'Se produjo un error'
+                        Edit_contact.is_message = 'Introduce un numero'
+                        break
 
-                self._parameters = (self._new_number, self._name)
-                db().update_number(self._parameters)
-                Edit_contact.is_view = True
-                Edit_contact.is_message = 'Número actualizado con exito'
-                break
+
+                if is_corret:
+                    self._parameters = (self._new_number, self._name)
+                    db().update_number(self._parameters)
+                    Edit_contact.is_view = True
+                    Edit_contact.is_message = 'Número actualizado con exito'
+                    break
 
             else:
                 Edit_contact.is_view = True
