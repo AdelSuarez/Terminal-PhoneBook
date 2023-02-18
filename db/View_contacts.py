@@ -1,7 +1,6 @@
-from components.components import Components
+import os
 import settings.settings as setting
 from db.DataBase import DataBase as db
-import os
 
 
 class View_contacts:
@@ -10,7 +9,7 @@ class View_contacts:
 		os.system ("cls")
 		while True:
 			if db().all_contacts() != []:
-				print('\n	*AGENDA*')
+				print('AGENDA'.center(setting.SPACE, setting.CARACTER))
 				for name, number in db().all_contacts():
 					print(f'Nombre: {name} | Número: {number}')
 
