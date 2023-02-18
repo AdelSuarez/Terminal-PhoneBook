@@ -39,11 +39,11 @@ class Create_contact:
             try:
                 os.system ("cls") 
                 com.view_message(Create_contact.is_view, Create_contact.is_message) 
-                self._name = com.varify_name().strip()
+                self._name = com.varify_name('Crear contacto').strip()
                 self._number = int(input('Número: '))
                 Create_contact.is_view = False
                 break
-            except ValueError:
+            except Exception as e:
                 Create_contact.is_view = True
                 Create_contact.is_message = 'Introduce solo números'
 
