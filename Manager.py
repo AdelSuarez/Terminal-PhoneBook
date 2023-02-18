@@ -1,8 +1,8 @@
 import os
-from db.Create_contact import Create_contact
-from db.View_contacts import View_contacts
-from db.Delete_contact import Delete_contact
-from db.Edit_contact import Edit_contact
+from view.Create_contact import Create_contact
+from view.View_contacts import View_contacts
+from view.Delete_contact import Delete_contact
+from view.Edit_contact import Edit_contact
 import settings.settings as setting
 from components.components import Components
 
