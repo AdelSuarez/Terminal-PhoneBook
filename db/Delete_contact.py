@@ -31,22 +31,23 @@ class Delete_contact:
 
 
     def _delete_contact(self):
-        if db().all_contacts() != []:
-            os.system ("cls")
-            com.view_message(Delete_contact.is_view, Delete_contact.is_message) 
-            print('BORRAR CONTACTO'.center(setting.SPACE, setting.CARACTER))
-            self._name = com.varify_name().strip()
-            
-            if db().search_name_db(self._name) != []:
-                db().delete_contact((self._name, ))
-                Delete_contact.is_view = True
-                Delete_contact.is_message = 'Contacto borrado con éxito'
-            else:
-                Delete_contact.is_view = True
-                Delete_contact.is_message = 'No existe el contacto'
+        while True:
+            if db().all_contacts() != []:
+                os.system ("cls")
+                com.view_message(Delete_contact.is_view, Delete_contact.is_message) 
+                self._name = com.varify_name('BORRAR CONTACTO').strip()
+                
+                if db().search_name_db(self._name) != []:
+                    db().delete_contact((self._name, ))
+                    Delete_contact.is_view = True
+                    Delete_contact.is_message = 'Contacto borrado con éxito'
+                    break
+                else:
+                    Delete_contact.is_view = True
+                    Delete_contact.is_message = 'No existe el contacto'
 
-        else:
-            setting.message_empty_calendar()
+            else:
+                setting.message_empty_calendar()
     
     def _view_welcome(sefl):
         os.system ("cls")
