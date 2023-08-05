@@ -1,67 +1,44 @@
-import os
-from view.Create_contact import Create_contact
-from view.View_contacts import View_contacts
-from view.Delete_contact import Delete_contact
+from view.Create_contact import CreateContact
+from view.View_contacts import ViewContacts
+from view.Delete_contact import DeleteContact
 from view.Edit_contact import Edit_contact
-import settings.settings as setting
-from components.components import Components
+from view import view_main
+
+
 
 class Manager:
-    is_view = False
-    is_message = '' 
-    
-    def __init__(self):
-        self._views()
 
-    def _views(self):
-
-        self._view_welcome()
+    def manager(self):
 
         while True:
-            while True:
-                self._view_options()
-                try:
-                    self._option = int(input('Selecciona una opción >> '))
-                    if not(0 <= self._option < 6):
-                        Manager.is_view = True
-                        Manager.is_message = 'La opcion no existe'
-                        os.system ("cls")
-                        continue
+            self.option = view_main.ViewMain().views_main()
 
-                    break
-                except ValueError:
-                    Manager.is_view = True
-                    Manager.is_message = 'Introduce solo números'
-                    print('Introduce solo números'.center(setting.SPACE, setting.CARACTER))
-                    os.system ("cls")
+            #for option, view in views.items():
+                #if self.option == option:
+                 #   print(view)   
 
+            if self.option == 1:
+                CreateContact().view_new_contact()
 
-            if self._option == 1:
-                Create_contact().create()
+            elif self.option == 2:
+                ViewContacts().contacts()
 
-            elif self._option == 2:
-                View_contacts().contacts()
+            elif self.option == 3:
+                DeleteContact().delete()
 
-            elif self._option == 3:
-                Delete_contact().delete()
-
-            elif self._option == 4:
+            elif self.option == 4:
                 Edit_contact()
 
-            elif self._option == 0:
+            elif self.option == 0:
                 break
+#views = {1:CreateContact().view_new_contact(),
+ #        2:View_contacts().contacts(),
+  #       3:Delete_contact().delete(),
+   #      4:Edit_contact(),
+    #     }
+views = {1:'1',
+         2:'2',
+         3:'3',
+         4: '4'}
 
-
-    def _view_welcome(self) -> None:
-        print('')
-        print(''.center(setting.SPACE, '*'))
-        print(' AGENDA DE CONTACTOS '.center(setting.SPACE, '*'))
-        print(''.center(setting.SPACE, '*'))
-        print('')
-
-    def _view_options(self) -> None:
-        Components.view_message(Manager.is_view, Manager.is_message)
-        print('Inicio'.center(setting.SPACE, setting.CARACTER))
-        print('* Crear contacto     | presione 1\n* Ver contactos      | Presione 2\n* Borrar contacto    | Presione 3\n* Editar contacto    | Presione 4\n* Salir              | Presione 0\n')
-        Manager.is_view = False
 

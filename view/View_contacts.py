@@ -1,31 +1,37 @@
-import os
-import settings.settings as setting
+from settings import settings, clear
 from db.DataBase import DataBase as db
 
 
-class View_contacts:
+class ViewContacts:
 
 	def contacts(self):
-		os.system ("cls")
+		clear.Clear()
 		while True:
 			if db().all_contacts() != []:
-				print('AGENDA'.center(setting.SPACE, setting.CARACTER))
+				print('AGENDA'.center(settings.SPACE, settings.CARACTER))
+				print("+--------------------+------------+")
+				print("|Nombre              |Número      |")
+				print("+--------------------+------------+")
+
 				for name, number in db().all_contacts():
-					print(f'Nombre: {name} | Número: {number}')
+					print("|{:<20}|{:<12}|".format(name, number))
+					
+				
+				print("+--------------------+------------+")
 
 			else:	
-				setting.message_empty_calendar()
+				settings.message_empty_calendar()
 			try:
 				go_back = int(input('\n0 para regresa >> '))
 				if go_back != 0:
-					os.system ("cls")
-					print('Opción incorrecta'.center(setting.SPACE, setting.CARACTER))
+					clear.Clear()
+					print('Opción incorrecta'.center(settings.SPACE, settings.CARACTER))
 					continue
-				os.system ("cls")
+				clear.Clear()
 				break
 			except ValueError:
-				os.system ("cls")
-				print('Introduce solo números'.center(setting.SPACE, setting.CARACTER))
+				clear.Clear()
+				print('Introduce solo números'.center(settings.SPACE, settings.CARACTER))
 
 
 

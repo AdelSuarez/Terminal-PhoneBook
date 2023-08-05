@@ -1,9 +1,8 @@
-import os
 from db.DataBase import DataBase as db
-from components.components import Components as com
-import settings.settings as setting
+from components import name_checker, message
+from settings import settings, clear
 
-class Delete_contact:
+class DeleteContact:
     is_view = False
     is_message = ''
 
@@ -12,54 +11,65 @@ class Delete_contact:
 
             while True:
                 while True:
-                    self._view_welcome()
+                    if not ViewOptionsDeleteContact(DeleteContact.is_view, DeleteContact.is_message).options_delete():
+                        DeleteContact.is_view = False
                     try:
                         self._option = int(input('Introduce la opcion >> '))
                         if not(0 <= self._option < 2 ):
-                            Delete_contact.is_view = True
-                            Delete_contact.is_message = 'Opción incorrecta'                        
+                            DeleteContact.is_view = True
+                            DeleteContact.is_message = 'Opción incorrecta'                        
                             continue
                         break
                     except Exception:
-                        Delete_contact.is_view = True
-                        Delete_contact.is_message = 'Introduce solo números'
+                        DeleteContact.is_view = True
+                        DeleteContact.is_message = 'Introduce solo números'
                 
                 if self._option == 1:
-                    self._delete_contact()
+                    if ViewDeleteContact(DeleteContact.is_view, DeleteContact.is_message).delete_contact():
+                        DeleteContact.is_view = True
+                        DeleteContact.is_message = 'Contacto borrado con éxito'
+                
                 elif self._option == 0:
-                    os.system ("cls")
+                    clear.Clear()
                     break
         else:
-            os.system ("cls")
-            setting.message_empty_calendar()
+            clear.Clear()
+            settings.message_empty_calendar()
+
+class ViewOptionsDeleteContact:
+    def __init__(self, is_view, is_message) -> None:
+        self.is_view = is_view
+        self.is_message = is_message
+
+    def options_delete(self):
+        clear.Clear()
+        message.Message(self.is_view, self.is_message)
+        print('Borrar cotacto'.center(settings.SPACE, settings.CARACTER))
+        print('\n* Borrar contacto | Presione 1\n* Regresar        | Presione 0\n')
+        return False
 
 
+class ViewDeleteContact:
+    def __init__(self, is_view, is_message) -> None:
+        self.is_view = is_view
+        self.is_message = is_message
 
-    def _delete_contact(self):
+    def delete_contact(self):
         while True:
             if db().all_contacts() != []:
-                os.system ("cls")
-                com.view_message(Delete_contact.is_view, Delete_contact.is_message) 
-                self._name = com.varify_name('BORRAR CONTACTO').strip()
+                clear.Clear()
+                message.Message(self.is_view, self.is_message)
+                self.name = name_checker.NameChecker.name_checker('BORRAR CONTACTO').strip()
                 
-                if db().search_name_db(self._name) != []:
-                    db().delete_contact((self._name, ))
-                    Delete_contact.is_view = True
-                    Delete_contact.is_message = 'Contacto borrado con éxito'
-                    break
+                if db().search_name_db(self.name) != []:
+                    db().delete_contact((self.name, ))
+                    return True
                 else:
-                    Delete_contact.is_view = True
-                    Delete_contact.is_message = 'No existe el contacto'
+                    self.is_view = True
+                    self.is_message = 'No existe el contacto'
 
             else:
-                setting.message_empty_calendar()
-    
-    def _view_welcome(sefl):
-        os.system ("cls")
-        com.view_message(Delete_contact.is_view, Delete_contact.is_message)
-        print('Borrar cotacto'.center(setting.SPACE, setting.CARACTER))
-        print('\n* Borrar contacto | Presione 1\n* Regresar        | Presione 0\n')
-        Delete_contact.is_view = False
+                settings.message_empty_calendar()
 
 
         

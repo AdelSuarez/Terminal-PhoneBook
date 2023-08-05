@@ -1,7 +1,7 @@
 import os
 from db.DataBase import DataBase as db
-from components.components import Components as com
-import settings.settings as setting
+from components.name_checker import NameChecker as component
+import settings.settings as settings
 
 
 class Edit_contact:
@@ -39,7 +39,7 @@ class Edit_contact:
                     break
         else:
             os.system ("cls")
-            setting.message_empty_calendar()
+            settings.message_empty_calendar()
 
 
 
@@ -48,8 +48,8 @@ class Edit_contact:
         Edit_contact.is_view = False
         while True:
             os.system ("cls")
-            com.view_message(Edit_contact.is_view, Edit_contact.is_message)
-            self._name = com.varify_name('EDITAR NOMBRE').strip()
+            component.view_message(Edit_contact.is_view, Edit_contact.is_message)
+            self._name = component.name_checker('EDITAR NOMBRE').strip()
 
             if db().search_name_db(self._name) != []:
                 is_corret = False
@@ -57,7 +57,7 @@ class Edit_contact:
                 while True:
                     if Edit_contact.is_view:
                         os.system ("cls")
-                        com.view_message(Edit_contact.is_view, Edit_contact.is_message)
+                        component.view_message(Edit_contact.is_view, Edit_contact.is_message)
 
                     print('Introduce el nuevo nombre:')
                     self._new_name = input('>> ')
@@ -84,14 +84,14 @@ class Edit_contact:
         Edit_contact.is_view = False
         while True:
             os.system ("cls")
-            com.view_message(Edit_contact.is_view, Edit_contact.is_message)
-            self._name = com.varify_name('EDITAR NUMERO').strip()
+            component.view_message(Edit_contact.is_view, Edit_contact.is_message)
+            self._name = component.name_checker('EDITAR NUMERO').strip()
             if db().search_name_db(self._name) != []:
                 Edit_contact.is_view = False
                 while True:
                     if Edit_contact.is_view:
                         os.system ("cls")
-                        com.view_message(Edit_contact.is_view, Edit_contact.is_message)
+                        component.view_message(Edit_contact.is_view, Edit_contact.is_message)
                     try:
                         print('Introduce el nuevo número:')
                         self._new_number = int(input('>> '))
@@ -116,6 +116,6 @@ class Edit_contact:
 
     def _view_welcome(sefl):
         os.system ("cls")
-        com.view_message(Edit_contact.is_view, Edit_contact.is_message)
-        print('Editar contacto'.center(setting.SPACE, setting.CARACTER))
+        component.view_message(Edit_contact.is_view, Edit_contact.is_message)
+        print('Editar contacto'.center(settings.SPACE, settings.CARACTER))
         print('\n* Editar Nombre | Presione 1\n* Editar Número | Presione 2\n* Regresar      | Presione 0\n')
