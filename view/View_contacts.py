@@ -9,15 +9,16 @@ class ViewContacts:
 		while True:
 			if db().all_contacts() != []:
 				print('AGENDA'.center(settings.SPACE, settings.CARACTER))
-				print("+--------------------+------------+")
-				print("|Nombre              |Número      |")
-				print("+--------------------+------------+")
+				print("+----+--------------------+------------+")
+				print("|ID  |Nombre              |Número      |")
+				print("+----+--------------------+------------+")
 
 				for name, number in db().all_contacts():
-					print("|{:<20}|{:<12}|".format(name, number))
+					print("|    |{:<20}|{:<12}|".format(name, number))
 					
 				
-				print("+--------------------+------------+")
+				print("+----+--------------------+------------+")
+				
 
 			else:	
 				settings.message_empty_calendar()

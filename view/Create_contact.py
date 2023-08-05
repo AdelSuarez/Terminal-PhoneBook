@@ -1,31 +1,32 @@
 from db.DataBase import DataBase as db
 from settings import clear, settings
 from components import name_checker, message
+from . import view
 
-class CreateContact:
-    is_view = False
-    is_message = ''       
+class CreateContact(view.View):
+    def __init__(self, is_view, is_message) -> None:
+        super().__init__(is_view, is_message)     
 
     def view_new_contact(self):
         while True:
             while True:
-                if not ViewOptionsNewContact(CreateContact.is_view, CreateContact.is_message).view_welcome():
-                    CreateContact.is_view = False
+                if  ViewOptionsNewContact(self.is_view, self.is_message).view_welcome():
+                    self.is_view = False
                 try:
                     self.option = int(input('Introduce la opcion >> '))
                     if not(0 <= self.option < 2 ):
-                        CreateContact.is_view = True
-                        CreateContact.is_message = 'Opción incorrecta'                        
+                        self.is_view = True
+                        self.is_message = 'Opción incorrecta'                        
                         continue
                     break
                 except Exception:
-                    CreateContact.is_view = True
-                    CreateContact.is_message = 'Introduce solo números'
+                    self.is_view = True
+                    self.is_message = 'Introduce solo números'
 
             if self.option == 1:
-                if ViewCreateNewContact(CreateContact.is_view, CreateContact.is_message).new_contact():
-                    CreateContact.is_view = True
-                    CreateContact.is_message = 'Contacto creado con exito'
+                if ViewCreateNewContact(self.is_view, self.is_message).new_contact():
+                    self.is_view = True
+                    self.is_message = 'Contacto creado con exito'
 
             elif self.option == 0:
                 clear.Clear()
@@ -37,24 +38,22 @@ class CreateContact:
                 break
 
 
-class ViewOptionsNewContact:
+class ViewOptionsNewContact(view.View):
     def __init__(self, is_view, is_message) -> None:
-        self.is_view = is_view
-        self.is_message = is_message
+        super().__init__(is_view, is_message)
 
     def view_welcome(self):
         clear.Clear()
         message.Message(self.is_view, self.is_message)
         print('Nuevo cotacto'.center(settings.SPACE, settings.CARACTER))
         print('\n* Crear contacto | Presione 1\n* Regresar       | Presione 0\n')
-        return False
+        return True
 
 
 
-class ViewCreateNewContact:
+class ViewCreateNewContact(view.View):
     def __init__(self, is_view, is_message) -> None:
-        self.is_view = is_view
-        self.is_message = is_message
+        super().__init__(is_view, is_message)
         
     def new_contact(self):
         while True:

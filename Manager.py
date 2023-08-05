@@ -1,33 +1,38 @@
 from view.Create_contact import CreateContact
 from view.View_contacts import ViewContacts
 from view.Delete_contact import DeleteContact
-from view.Edit_contact import Edit_contact
+from view.Edit_contact import EditContact
 from view import view_main
 
+class View:
+    def __init__(self, is_view, is_message) -> None:
+        self.is_view = is_view
+        self.is_message = is_message
 
-
-class Manager:
+class Manager(View):
+    def __init__(self, is_view = False, is_message = '') -> None:
+        super().__init__(is_view, is_message)
 
     def manager(self):
 
         while True:
-            self.option = view_main.ViewMain().views_main()
+            self.option = view_main.ViewMain(self.is_view, self.is_message).views_main()
 
             #for option, view in views.items():
                 #if self.option == option:
                  #   print(view)   
 
             if self.option == 1:
-                CreateContact().view_new_contact()
+                CreateContact(self.is_view, self.is_message).view_new_contact()
 
             elif self.option == 2:
                 ViewContacts().contacts()
 
             elif self.option == 3:
-                DeleteContact().delete()
+                DeleteContact().delete(self.is_view, self.is_message)
 
             elif self.option == 4:
-                Edit_contact()
+                EditContact().mian_edit(self.is_view, self.is_message)
 
             elif self.option == 0:
                 break

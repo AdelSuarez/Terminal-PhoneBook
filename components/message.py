@@ -1,10 +1,9 @@
 from settings import settings
+from view.view import View
 
-
-class Message:
+class Message(View):
     def __init__(self, is_view, is_message) -> None:
-        self.is_message = is_message
-        self.is_view = is_view
+        super().__init__(is_view, is_message)
         self.message()
 
     def message(self):
