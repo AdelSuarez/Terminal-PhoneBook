@@ -10,8 +10,6 @@ class ViewContacts:
 			if db().all_contacts() != []:
 				print("+--------------------------------------+")
 				print("|               AGENDA                 |")
-
-#				print('AGENDA'.center(settings.SPACE, settings.CARACTER))
 				print("+----+--------------------+------------+")
 				print("|ID  |Nombre              |Número      |")
 				print("+----+--------------------+------------+")

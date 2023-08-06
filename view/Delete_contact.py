@@ -45,7 +45,6 @@ class ViewOptionsDeleteContact(view.View):
             'Presione 0': 'Regresar'
         }
 
-
     def options_delete(self):
         clear.Clear()
         message.Message(self.is_view, self.is_message)
@@ -65,6 +64,9 @@ class ViewDeleteContact(view.View):
                 clear.Clear()
                 message.Message(self.is_view, self.is_message)
                 self.name = name_checker.NameChecker(self.is_view, self.is_message).name_checker('BORRAR CONTACTO').strip()
+                
+                if self.name =='0':
+                    break
                 
                 if db().search_name_db(self.name) != []:
                     db().delete_contact((self.name, ))

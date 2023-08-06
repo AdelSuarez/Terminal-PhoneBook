@@ -16,9 +16,13 @@ class NameChecker(View):
 
             if title != '':
                 print(title.center(settings.SPACE, settings.CARACTER))
+                print('| > 0 Regresar                         |')
 
-            print('Introduce el nombre del contacto')
-            name = input('Nombre: ')
+
+            print('| ° Introduce el nombre del contacto   |')
+            print("+--------------------------------------+")
+
+            name = input('| Nombre: ')
             
             if (len(name) == 0):
                 self.is_view = True

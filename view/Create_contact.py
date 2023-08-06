@@ -42,7 +42,7 @@ class ViewOptionsNewContact(view.View):
     def __init__(self, is_view, is_message) -> None:
         super().__init__(is_view, is_message)
         self.options = {
-            'Presione 1': 'Crea contacto',
+            'Presione 1': 'Crear contacto',
             'Presione 0': 'Regresar'
         }
 
@@ -61,18 +61,24 @@ class ViewCreateNewContact(view.View):
         super().__init__(is_view, is_message)
         
     def new_contact(self):
+        go_back = True
         while True:
             try:
                 clear.Clear()
                 message.Message(self.is_view, self.is_message)
                 self.name = name_checker.NameChecker(self.is_view, self.is_message).name_checker('CREAR CONTACTO').strip()
-                self.number = int(input('Número: '))
+                if self.name == '0':
+                    go_back = False
+                    break
+
+                self.number = int(input('| Número: '))
                 break
 
             except ValueError:
                 self.is_view = True
                 self.is_message = 'Introduce solo números'
 
-        db().create_contact(self.name, self.number)
-        return True
+        if go_back:
+            db().create_contact(self.name, self.number)
+            return True
 
