@@ -16,7 +16,7 @@ class DataBase:
 
     def create_contact(self, name, number):
         parameters = (name, number)
-        query = 'INSERT INTO CONTACT VALUES(?,?)'
+        query = 'INSERT INTO CONTACT VALUES(NULL,?,?)'
         self.connect_db(query, parameters)
 
     def delete_contact(self, parameters):

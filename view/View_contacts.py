@@ -13,8 +13,8 @@ class ViewContacts:
 				print("|ID  |Nombre              |Número      |")
 				print("+----+--------------------+------------+")
 
-				for name, number in db().all_contacts():
-					print("|    |{:<20}|{:<12}|".format(name, number))
+				for id, name, number in db().all_contacts():
+					print("|{:<4}|{:<20}|{:<12}|".format(id,name, number))
 					
 				
 				print("+----+--------------------+------------+")

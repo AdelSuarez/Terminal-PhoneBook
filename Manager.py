@@ -29,10 +29,10 @@ class Manager(View):
                 ViewContacts().contacts()
 
             elif self.option == 3:
-                DeleteContact().delete(self.is_view, self.is_message)
+                DeleteContact(self.is_view, self.is_message).delete()
 
             elif self.option == 4:
-                EditContact().mian_edit(self.is_view, self.is_message)
+                EditContact(self.is_view, self.is_message).mian_edit()
 
             elif self.option == 0:
                 break

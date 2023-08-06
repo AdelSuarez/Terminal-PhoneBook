@@ -33,11 +33,9 @@ class ViewMain(view.View):
 
 class ViewWelcome:
     def view_welcome(self) -> None:
-        print('')
         print(''.center(settings.SPACE, '*'))
         print(' AGENDA DE CONTACTOS '.center(settings.SPACE, '*'))
         print(''.center(settings.SPACE, '*'))
-        print('')
 
 
 class ViewOptions(view.View):
@@ -47,5 +45,7 @@ class ViewOptions(view.View):
     def view_options(self) -> None:
         NameChecker.view_message(self.is_view, self.is_message)
         print('Inicio'.center(settings.SPACE, settings.CARACTER))
-        print('* Crear contacto     | presione 1\n* Ver contactos      | Presione 2\n* Borrar contacto    | Presione 3\n* Editar contacto    | Presione 4\n* Salir              | Presione 0\n')
+        print('| Crear contacto     | presione 1 |\n| Ver contactos      | Presione 2 |\n| Borrar contacto    | Presione 3 |\n| Editar contacto    | Presione 4 |\n| Salir              | Presione 0 |')
+        print(''.center(settings.SPACE, settings.CARACTER))
+
         return False
