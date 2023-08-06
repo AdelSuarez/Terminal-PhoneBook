@@ -1,9 +1,9 @@
 from settings import settings, clear
 from db.DataBase import DataBase as db
-from components.name_checker import NameChecker as component
 from components import name_checker, message
 
 from . import view
+
 
 
 class EditContact(view.View):
@@ -18,8 +18,8 @@ class EditContact(view.View):
                 while True:
                     ViewOptionsEditContact(self.is_view, self.is_message).options_edit_contact()
                     try:
-                        self._option = int(input('Introduce la opcion >> '))
-                        if not(0 <= self._option < 3):
+                        self.option = int(input('Introduce la opcion >> '))
+                        if not(0 <= self.option < 3):
                             self.is_view = True
                             self.is_message = 'Opción incorrecta'
                             continue
@@ -28,13 +28,13 @@ class EditContact(view.View):
                         self.is_view = True
                         self.is_message = 'Introduce solo números'
 
-                if self._option == 1:
+                if self.option == 1:
                     ViewEditName(self.is_view, self.is_message).edit_name()
 
-                elif self._option == 2:
+                elif self.option == 2:
                     ViewEditNumber(self.is_view, self.is_message).edit_number()
                     
-                elif self._option == 0:
+                elif self.option == 0:
                     clear.Clear()
                     break
         else:
@@ -51,7 +51,7 @@ class ViewEditName(view.View):
         while True:
             clear.Clear()
             message.Message(self.is_view, self.is_message)
-            self.name = name_checker.NameChecker('EDITAR NOMBRE').strip()
+            self.name = name_checker.NameChecker(self.is_view, self.is_message).name_checker('EDITAR NOMBRE').strip()
 
             if db().search_name_db(self.name) != []:
                 is_corret = False
@@ -59,7 +59,7 @@ class ViewEditName(view.View):
                 while True:
                     if self.is_view:
                         clear.Clear()
-                        component.view_message(self.is_view, self.is_message)
+                        message.Message(self.is_view, self.is_message)
 
                     print('Introduce el nuevo nombre:')
                     self._new_name = input('>> ')
@@ -92,7 +92,7 @@ class ViewEditNumber(view.View):
         while True:
             clear.Clear()
             message.Message(self.is_view, self.is_message)
-            self.name = name_checker.NameChecker('EDITAR NUMERO').strip()
+            self.name = name_checker.NameChecker(self.is_view, self.is_message).name_checker('EDITAR NUMERO').strip()
 
             if db().search_name_db(self.name) != []:
                 self.is_view = False
@@ -109,11 +109,10 @@ class ViewEditNumber(view.View):
                         self.is_view = True
                         self.is_message = 'Introduce un numero'
                         break
-
-
+                    
                 if is_corret:
-                    self._parameters = (self.new_number, self.name)
-                    db().update_number(self._parameters)
+                    self.parameters = (self.new_number, self.name)
+                    db().update_number(self.parameters)
                     self.is_view = True
                     self.is_message = 'Número actualizado con exito'
                     break
@@ -126,8 +125,8 @@ class ViewOptionsEditContact(view.View):
     def __init__(self, is_view, is_message) -> None:
         super().__init__(is_view, is_message)
 
-    def options_edit_contact(sefl):
+    def options_edit_contact(self):
         clear.Clear()
-        component.view_message(sefl.is_view, sefl.is_message)
+        message.Message(self.is_view, self.is_message)
         print('Editar contacto'.center(settings.SPACE, settings.CARACTER))
         print('\n* Editar Nombre | Presione 1\n* Editar Número | Presione 2\n* Regresar      | Presione 0\n')

@@ -8,7 +8,10 @@ class ViewContacts:
 		clear.Clear()
 		while True:
 			if db().all_contacts() != []:
-				print('AGENDA'.center(settings.SPACE, settings.CARACTER))
+				print("+--------------------------------------+")
+				print("|               AGENDA                 |")
+
+#				print('AGENDA'.center(settings.SPACE, settings.CARACTER))
 				print("+----+--------------------+------------+")
 				print("|ID  |Nombre              |Número      |")
 				print("+----+--------------------+------------+")
@@ -23,7 +26,7 @@ class ViewContacts:
 			else:	
 				settings.message_empty_calendar()
 			try:
-				go_back = int(input('\n0 para regresa >> '))
+				go_back = int(input('| 0 para regresa >> '))
 				if go_back != 0:
 					clear.Clear()
 					print('Opción incorrecta'.center(settings.SPACE, settings.CARACTER))

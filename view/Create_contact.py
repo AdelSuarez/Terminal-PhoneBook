@@ -13,7 +13,7 @@ class CreateContact(view.View):
                 if  ViewOptionsNewContact(self.is_view, self.is_message).view_welcome():
                     self.is_view = False
                 try:
-                    self.option = int(input('Introduce la opcion >> '))
+                    self.option = int(input('| Introduce la opcion >> '))
                     if not(0 <= self.option < 2 ):
                         self.is_view = True
                         self.is_message = 'Opción incorrecta'                        
@@ -41,12 +41,17 @@ class CreateContact(view.View):
 class ViewOptionsNewContact(view.View):
     def __init__(self, is_view, is_message) -> None:
         super().__init__(is_view, is_message)
+        self.options = {
+            'Presione 1': 'Crea contacto',
+            'Presione 0': 'Regresar'
+        }
 
     def view_welcome(self):
         clear.Clear()
         message.Message(self.is_view, self.is_message)
-        print('Nuevo cotacto'.center(settings.SPACE, settings.CARACTER))
-        print('\n* Crear contacto | Presione 1\n* Regresar       | Presione 0\n')
+        print("+--------------------------------------+")
+        print('|            NUEVO CONTACTO            |')
+        self.view_option_menu(self.options)
         return True
 
 
@@ -60,9 +65,8 @@ class ViewCreateNewContact(view.View):
             try:
                 clear.Clear()
                 message.Message(self.is_view, self.is_message)
-                self.name = name_checker.NameChecker().name_checker('CREAR CONTACTO').strip()
+                self.name = name_checker.NameChecker(self.is_view, self.is_message).name_checker('CREAR CONTACTO').strip()
                 self.number = int(input('Número: '))
-                #self.is_view = False
                 break
 
             except ValueError:

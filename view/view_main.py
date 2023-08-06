@@ -1,5 +1,5 @@
 from settings import settings, clear
-from components.name_checker import NameChecker
+from components import message
 from . import view
 
 class ViewMain(view.View):
@@ -9,14 +9,12 @@ class ViewMain(view.View):
 
     def views_main(self):
 
-
         while True:
-            ViewWelcome().view_welcome()
             if not ViewOptions(self.is_view, self.is_message).view_options():
                 self.is_view = False
                 
             try:
-                self.option = int(input('Selecciona una opción >> '))
+                self.option = int(input('| Selecciona una opción >> '))
                 if not(0 <= self.option < 6):
                     self.is_view = True
                     self.is_message = 'La opcion no existe'
@@ -30,22 +28,23 @@ class ViewMain(view.View):
                 print('Introduce solo números'.center(settings.SPACE, settings.CARACTER))
                 clear.Clear()
 
-
-class ViewWelcome:
-    def view_welcome(self) -> None:
-        print(''.center(settings.SPACE, '*'))
-        print(' AGENDA DE CONTACTOS '.center(settings.SPACE, '*'))
-        print(''.center(settings.SPACE, '*'))
-
-
+        
 class ViewOptions(view.View):
     def __init__(self, is_view, is_message) -> None:
         super().__init__(is_view, is_message)
+        self.options = {
+            'Presione 1': 'Nuevo contacto',
+            'Presione 2': 'Ver contactos',
+            'Presione 3': 'Borrar contacto',
+            'Presione 4': 'Editar contacto',
+            'Presione 0': 'Salir'
+        }
 
     def view_options(self) -> None:
-        NameChecker.view_message(self.is_view, self.is_message)
-        print('Inicio'.center(settings.SPACE, settings.CARACTER))
-        print('| Crear contacto     | presione 1 |\n| Ver contactos      | Presione 2 |\n| Borrar contacto    | Presione 3 |\n| Editar contacto    | Presione 4 |\n| Salir              | Presione 0 |')
-        print(''.center(settings.SPACE, settings.CARACTER))
+        message.Message(self.is_view, self.is_message)
+        print("+--------------------------------------+")
+        print('|          AGENDA DE CONTACTOS         |')
+        print('|----------------INICIO----------------|')
 
+        self.view_option_menu(self.options)
         return False

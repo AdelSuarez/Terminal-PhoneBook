@@ -15,7 +15,7 @@ class DeleteContact(view.View):
                     if ViewOptionsDeleteContact(self.is_view, self.is_message).options_delete():
                         self.is_view = False
                     try:
-                        self._option = int(input('Introduce la opcion >> '))
+                        self._option = int(input('| Introduce la opcion >> '))
                         if not(0 <= self._option < 2 ):
                             self.is_view = True
                             self.is_message = 'Opción incorrecta'                        
@@ -40,12 +40,18 @@ class DeleteContact(view.View):
 class ViewOptionsDeleteContact(view.View):
     def __init__(self, is_view, is_message) -> None:
         super().__init__(is_view, is_message)
+        self.options = {
+            'Presione 1': 'Borrar',
+            'Presione 0': 'Regresar'
+        }
+
 
     def options_delete(self):
         clear.Clear()
         message.Message(self.is_view, self.is_message)
-        print('Borrar cotacto'.center(settings.SPACE, settings.CARACTER))
-        print('\n* Borrar contacto | Presione 1\n* Regresar        | Presione 0\n')
+        print("+--------------------------------------+")
+        print('|           BORRAR CONTACTO            |')
+        self.view_option_menu(self.options)
         return True
 
 
@@ -58,7 +64,7 @@ class ViewDeleteContact(view.View):
             if db().all_contacts() != []:
                 clear.Clear()
                 message.Message(self.is_view, self.is_message)
-                self.name = name_checker.NameChecker.name_checker('BORRAR CONTACTO').strip()
+                self.name = name_checker.NameChecker(self.is_view, self.is_message).name_checker('BORRAR CONTACTO').strip()
                 
                 if db().search_name_db(self.name) != []:
                     db().delete_contact((self.name, ))

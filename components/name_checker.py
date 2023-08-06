@@ -1,17 +1,18 @@
 from settings import settings, clear
 from . import message
+from view.view import View 
 
-class NameChecker:
-    is_view = False
-    is_message = ''
+class NameChecker(View):
+    def __init__(self, is_view, is_message) -> None:
+        super().__init__(is_view, is_message)
 
     def name_checker(self, title = ''):
         while True:
 
-            if NameChecker.is_view:
+            if self.is_view:
                 clear.Clear()
 
-            message.Message(NameChecker.is_view, NameChecker.is_message)
+            message.Message(self.is_view, self.is_message)
 
             if title != '':
                 print(title.center(settings.SPACE, settings.CARACTER))
@@ -20,17 +21,14 @@ class NameChecker:
             name = input('Nombre: ')
             
             if (len(name) == 0):
-                NameChecker.is_view = True
-                NameChecker.is_message = 'Por Favor introduce el nombre'
+                self.is_view = True
+                self.is_message = 'Por Favor introduce el nombre'
                 continue
             break
 
-        NameChecker.is_view = False
+        self.is_view = False
 
         return name
 
-    def view_message(is_view, is_message):
-        if is_view:
-            print(is_message.center(settings.SPACE, settings.CARACTER))
 
             
