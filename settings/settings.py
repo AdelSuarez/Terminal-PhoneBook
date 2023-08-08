@@ -10,7 +10,7 @@ YELLOW = '\033[33m'
 SPACE = 40
 CARACTER = '-'
 
-def message_empty_calendar():
+def view_empty_agenda():
     print("+--------------------------------------+")
     print("|               AGENDA                 |")
     print("+--------------------------------------+")

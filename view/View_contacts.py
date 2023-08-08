@@ -6,14 +6,17 @@ class ViewContacts:
 
 	def all_contacts(self):
 		clear.Clear()
-		while True:
+		a = True
+		while a:
 			all_contacts = db().all_contacts()
-			if all_contacts != []:
-				self.view_all_contacts( all_contacts)
-
-			else:	
-				settings.message_empty_calendar()
+				
 			try:
+				if all_contacts != []:
+					self.view_all_contacts( all_contacts)
+
+				else:	
+					settings.view_empty_agenda()
+
 				go_back = int(input('| 0 para regresar >> '))
 				if go_back != 0:
 					clear.Clear()
@@ -21,6 +24,7 @@ class ViewContacts:
 					continue
 				clear.Clear()
 				break
+
 			except ValueError:
 				clear.Clear()
 				print('Introduce solo números'.center(settings.SPACE, settings.CARACTER))

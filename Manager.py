@@ -3,6 +3,7 @@ from view.View_contacts import ViewContacts
 from view.Delete_contact import DeleteContact
 from view.Edit_contact import EditContact
 from view import view_main
+from settings import clear
 
 class View:
     def __init__(self, is_view, is_message) -> None:
@@ -29,6 +30,7 @@ class Manager(View):
                 ViewContacts().all_contacts()
 
             elif self.option == 3:
+                clear.Clear()
                 DeleteContact(self.is_view, self.is_message).delete()
 
             elif self.option == 4:

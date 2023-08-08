@@ -36,7 +36,7 @@ class EditContact(view.View):
                     break
         else:
             clear.Clear()
-            settings.message_empty_calendar()
+            settings.view_empty_agenda()
 
 
 class ViewEditName(view.View):

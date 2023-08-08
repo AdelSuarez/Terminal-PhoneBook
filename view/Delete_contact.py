@@ -1,14 +1,15 @@
 from db.DataBase import DataBase as db
 from components import name_checker, message
 from settings import settings, clear
-from . import view, View_contacts
+from . import view, View_contacts, View_contacts
 
 class DeleteContact(view.View):
     def __init__(self, is_view, is_message) -> None:
         super().__init__(is_view, is_message)
         self.options = {
             'Presione 1': 'Borrar',
-            'Presione 0': 'Regresar'
+            'Presione 2': 'Ver contactos',
+            'Presione 0': 'Regresar',
         }
 
     def delete(self):
@@ -16,30 +17,41 @@ class DeleteContact(view.View):
 
             while True:
                 while True:
+
                     if ViewOptionsDeleteContact(self.is_view, self.is_message, self.options).options_delete():
                         self.is_view = False
+                        
                     try:
-                        self._option = int(input('| Introduce la opcion >> '))
-                        if not(0 <= self._option < len(self.options) ):
+                        self.option = int(input('| Introduce la opcion >> '))
+                        if not(0 <= self.option < len(self.options) ):
                             self.is_view = True
-                            self.is_message = 'Opción incorrecta'                        
+                            self.is_message = 'Opción incorrecta' 
+                            clear.Clear()
                             continue
                         break
                     except Exception:
                         self.is_view = True
                         self.is_message = 'Introduce solo números'
+                        clear.Clear()
+
                 
-                if self._option == 1:
+                if self.option == 1:
                     if ViewDeleteContact(self.is_view, self.is_message).delete_contact():
                         self.is_view = True
                         self.is_message = 'Contacto borrado con éxito'
+                        clear.Clear()
+
+
+                elif self.option == 2:
+
+                    View_contacts.ViewContacts().all_contacts()
                 
-                elif self._option == 0:
+                elif self.option == 0:
                     clear.Clear()
                     break
         else:
             clear.Clear()
-            settings.message_empty_calendar()
+            print('Agenda vacía'.center(settings.SPACE, settings.CARACTER))
 
 class ViewOptionsDeleteContact(view.View):
     def __init__(self, is_view, is_message, options) -> None:
@@ -47,7 +59,6 @@ class ViewOptionsDeleteContact(view.View):
         self.options = options
 
     def options_delete(self):
-        clear.Clear()
         message.Message(self.is_view, self.is_message)
         print("+--------------------------------------+")
         print('|           BORRAR CONTACTO            |')
@@ -67,8 +78,11 @@ class ViewDeleteContact(view.View):
                 self.name = name_checker.NameChecker(self.is_view, self.is_message).name_checker('BORRAR CONTACTO').strip()
                 
                 if self.name =='0':
+                    clear.Clear()
                     break
+
                 contact = db().search_name_db(self.name)
+
                 if  contact != []:
                     if len(contact) > 1:
                         View_contacts.ViewContacts().view_all_contacts(db().search_name_db(self.name)) 
@@ -87,7 +101,9 @@ class ViewDeleteContact(view.View):
                     self.is_message = 'No existe el contacto'
 
             else:
-                settings.message_empty_calendar()
+                clear.Clear()
+                print('Agenda vacía'.center(settings.SPACE, settings.CARACTER))
+                break
 
 
         
