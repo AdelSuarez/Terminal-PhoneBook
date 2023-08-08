@@ -35,6 +35,11 @@ class DataBase:
         parameters = (name, )
         query = 'SELECT * FROM CONTACT WHERE name LIKE ?'
         return self.connect_db(query, parameters).fetchall()
+    
+    def search_id_db(self, name):
+        parameters = (name, )
+        query = 'SELECT * FROM CONTACT WHERE ID=?'
+        return self.connect_db(query, parameters).fetchall()
 
     def update_name(self, parameters):
         query = 'UPDATE CONTACT SET name = ? WHERE name = ?'

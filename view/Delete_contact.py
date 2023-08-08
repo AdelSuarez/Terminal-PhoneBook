@@ -6,7 +6,7 @@ from . import view, View_contacts, View_contacts
 class DeleteContact(view.View):
     def __init__(self, is_view, is_message) -> None:
         super().__init__(is_view, is_message)
-        self.options = {
+        self.view_options = {
             'Presione 1': 'Borrar',
             'Presione 2': 'Ver contactos',
             'Presione 0': 'Regresar',
@@ -18,12 +18,12 @@ class DeleteContact(view.View):
             while True:
                 while True:
 
-                    if ViewOptionsDeleteContact(self.is_view, self.is_message, self.options).options_delete():
+                    if ViewOptionsDeleteContact(self.is_view, self.is_message, self.view_options).options_delete():
                         self.is_view = False
-                        
+
                     try:
                         self.option = int(input('| Introduce la opcion >> '))
-                        if not(0 <= self.option < len(self.options) ):
+                        if not(0 <= self.option < len(self.view_options) ):
                             self.is_view = True
                             self.is_message = 'Opción incorrecta' 
                             clear.Clear()
@@ -85,13 +85,25 @@ class ViewDeleteContact(view.View):
 
                 if  contact != []:
                     if len(contact) > 1:
-                        View_contacts.ViewContacts().view_all_contacts(db().search_name_db(self.name)) 
-                        id_contacto = int(input('| ID: '))
-                        if id_contacto == 0:
-                            break
+                        View_contacts.ViewContacts().view_all_contacts(db().search_name_db(self.name))
+                        try:
+                            id_contacto = int(input('| ID: '))
+                            
+                            if id_contacto == 0:
+                                clear.Clear()
+                                break
+                            if db().search_id_db(id_contacto) != []:
+                                db().delete_contact_id((id_contacto,))
+                                return True
+                            else:
+                                self.is_view = True
+                                self.is_message = 'No existe el ID'
+                                
+                        except ValueError:
+                            self.is_view = True
+                            self.is_message = 'Introduce solo números'
+                        
 
-                        db().delete_contact_id((id_contacto,))
-                        return True
 
                     else:
                         db().delete_contact_name((self.name, ))
