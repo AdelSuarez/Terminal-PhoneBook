@@ -19,8 +19,12 @@ class DataBase:
         query = 'INSERT INTO CONTACT VALUES(NULL,?,?)'
         self.connect_db(query, parameters)
 
-    def delete_contact(self, parameters):
+    def delete_contact_name(self, parameters):
         query = 'DELETE FROM CONTACT WHERE name LIKE ?'
+        self.connect_db(query, parameters)
+
+    def delete_contact_id(self, parameters):
+        query = 'DELETE FROM CONTACT WHERE id=?'
         self.connect_db(query, parameters)
 
     def all_contacts(self):

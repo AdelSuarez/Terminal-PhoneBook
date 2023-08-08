@@ -26,7 +26,7 @@ class Manager(View):
                 CreateContact(self.is_view, self.is_message).view_new_contact()
 
             elif self.option == 2:
-                ViewContacts().contacts()
+                ViewContacts().all_contacts()
 
             elif self.option == 3:
                 DeleteContact(self.is_view, self.is_message).delete()

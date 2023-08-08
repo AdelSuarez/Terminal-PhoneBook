@@ -5,16 +5,20 @@ from . import view
 
 class CreateContact(view.View):
     def __init__(self, is_view, is_message) -> None:
-        super().__init__(is_view, is_message)     
+        super().__init__(is_view, is_message)
+        self.options = {
+            'Presione 1': 'Crear contacto',
+            'Presione 0': 'Regresar'
+        }
 
     def view_new_contact(self):
         while True:
             while True:
-                if  ViewOptionsNewContact(self.is_view, self.is_message).view_welcome():
+                if  ViewOptionsNewContact(self.is_view, self.is_message, self.options).view_welcome():
                     self.is_view = False
                 try:
                     self.option = int(input('| Introduce la opcion >> '))
-                    if not(0 <= self.option < 2 ):
+                    if not(0 <= self.option < len(self.options) ):
                         self.is_view = True
                         self.is_message = 'Opción incorrecta'                        
                         continue
@@ -39,12 +43,10 @@ class CreateContact(view.View):
 
 
 class ViewOptionsNewContact(view.View):
-    def __init__(self, is_view, is_message) -> None:
+    def __init__(self, is_view, is_message, options) -> None:
         super().__init__(is_view, is_message)
-        self.options = {
-            'Presione 1': 'Crear contacto',
-            'Presione 0': 'Regresar'
-        }
+        self.options = options
+        
 
     def view_welcome(self):
         clear.Clear()

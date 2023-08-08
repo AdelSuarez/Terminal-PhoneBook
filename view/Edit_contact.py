@@ -1,10 +1,7 @@
 from settings import settings, clear
 from db.DataBase import DataBase as db
 from components import name_checker, message
-
 from . import view
-
-
 
 class EditContact(view.View):
     def __init__(self, is_view, is_message) -> None:
