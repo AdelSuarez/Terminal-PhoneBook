@@ -2,10 +2,10 @@ import sqlite3 as sql
 
 class DataBase:
     def __init__(self, db = 'DataBase.db'):
-        self._database = db
+        self.database = db
 
     def connect_db(self, query, parameters = (),):
-        with sql.connect(self._database) as conn:
+        with sql.connect(self.database) as conn:
             self.cur = conn.cursor()
             result =  self.cur.execute(query, parameters)
             conn.commit()

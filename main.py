@@ -3,9 +3,11 @@ from db.DataBase import DataBase
 from settings import clear
 
 query = '''CREATE TABLE IF NOT EXISTS CONTACT (
-			ID INTEGER PRIMARY KEY AUTOINCREMENT,
+			ID INTEGER,
 			NAME TEXT NOT NULL, 
-			NUMBER INTEGER NOT NULL)'''
+			NUMBER INTEGER NOT NULL,
+			PRIMARY KEY("ID" AUTOINCREMENT)
+			)'''
 
 if __name__ == '__main__':
 	clear.Clear()

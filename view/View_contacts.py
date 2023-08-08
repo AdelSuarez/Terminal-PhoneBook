@@ -7,8 +7,9 @@ class ViewContacts:
 	def all_contacts(self):
 		clear.Clear()
 		while True:
-			if db().all_contacts() != []:
-				self.view_all_contacts()
+			all_contacts = db().all_contacts()
+			if all_contacts != []:
+				self.view_all_contacts( all_contacts)
 
 			else:	
 				settings.message_empty_calendar()
@@ -26,7 +27,7 @@ class ViewContacts:
 
 
 
-	def view_all_contacts(self, database = db().all_contacts()):
+	def view_all_contacts(self, database ):
 		print("+--------------------------------------+")
 		print("|               AGENDA                 |")
 		print("+----+--------------------+------------+")
