@@ -3,16 +3,16 @@ from . import message
 from view.view import View 
 
 class NameChecker(View):
-    def __init__(self, is_view, is_message) -> None:
-        super().__init__(is_view, is_message)
+    def __init__(self, is_view, is_message, type_message) -> None:
+        super().__init__(is_view, is_message, type_message)
 
-    def name_checker(self, title = ''):
+    def name_checker(self, title : str = '') -> str:
         while True:
 
             if self.is_view:
                 clear.Clear()
 
-            message.Message(self.is_view, self.is_message)
+            message.Message(self.is_view, self.is_message,self.type_message)
 
             if title != '':
                 print(title.center(settings.SPACE, settings.CARACTER))
@@ -25,9 +25,10 @@ class NameChecker(View):
             name = input('| Nombre: ')
             
             if (len(name) == 0):
-                self.is_view = True
-                self.is_message = 'Por Favor introduce el nombre'
+
+                self.message_variables(True,'Por Favor introduce el nombre', 'warning' )
                 continue
+            
             break
 
         self.is_view = False
