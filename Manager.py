@@ -19,10 +19,6 @@ class Manager(View):
         while True:
             self.option = view_main.ViewMain(self.is_view, self.is_message).views_main()
 
-            #for option, view in views.items():
-                #if self.option == option:
-                 #   print(view)   
-
             if self.option == 1:
                 CreateContact(self.is_view, self.is_message).view_new_contact()
 
@@ -38,14 +34,6 @@ class Manager(View):
 
             elif self.option == 0:
                 break
-#views = {1:CreateContact().view_new_contact(),
- #        2:View_contacts().contacts(),
-  #       3:Delete_contact().delete(),
-   #      4:Edit_contact(),
-    #     }
-views = {1:'1',
-         2:'2',
-         3:'3',
-         4: '4'}
+
 
 

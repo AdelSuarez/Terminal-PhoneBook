@@ -1,13 +1,11 @@
 from settings import settings, clear
 from db.DataBase import DataBase as db
 
-
 class ViewContacts:
 
 	def all_contacts(self):
 		clear.Clear()
-		a = True
-		while a:
+		while True:
 			all_contacts = db().all_contacts()
 				
 			try:

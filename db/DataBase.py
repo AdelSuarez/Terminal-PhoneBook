@@ -6,13 +6,13 @@ class DataBase:
 
     def connect_db(self, query, parameters = (),):
         with sql.connect(self.database) as conn:
-            self.cur = conn.cursor()
-            result =  self.cur.execute(query, parameters)
+            cur = conn.cursor()
+            result =  cur.execute(query, parameters)
             conn.commit()
         return result
 
-    def fetchall(self):
-        return self.connect_db().fetchall()
+    # def fetchall(self):
+        # return self.connect_db().fetchall()
 
     def create_contact(self, name, number):
         parameters = (name, number)
@@ -28,7 +28,7 @@ class DataBase:
         self.connect_db(query, parameters)
 
     def all_contacts(self):
-        query = 'SELECT * FROM CONTACT ORDER BY name'
+        query = 'SELECT * FROM CONTACT ORDER BY name, id'
         return  self.connect_db(query, ).fetchall()
 
     def search_name_db(self, name):
@@ -38,15 +38,23 @@ class DataBase:
     
     def search_id_db(self, name):
         parameters = (name, )
-        query = 'SELECT * FROM CONTACT WHERE ID=?'
+        query = 'SELECT * FROM CONTACT WHERE id=?'
         return self.connect_db(query, parameters).fetchall()
 
     def update_name(self, parameters):
         query = 'UPDATE CONTACT SET name = ? WHERE name = ?'
         self.connect_db(query, parameters)
 
+    def update_name_id(self, parameters):
+        query = 'UPDATE CONTACT SET name = ? WHERE id = ?'
+        self.connect_db(query, parameters)
+
     def update_number(self, parameters):
         query = 'UPDATE CONTACT SET number = ? WHERE name = ?'
+        self.connect_db(query, parameters)
+
+    def update_number_id(self, parameters):
+        query = 'UPDATE CONTACT SET number = ? WHERE id = ?'
         self.connect_db(query, parameters)
 
 

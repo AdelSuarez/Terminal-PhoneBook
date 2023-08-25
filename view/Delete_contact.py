@@ -18,7 +18,7 @@ class DeleteContact(view.View):
             while True:
                 while True:
 
-                    if ViewOptionsDeleteContact(self.is_view, self.is_message, self.view_options).options_delete():
+                    if ViewOptionsDeleteContact(self.is_view, self.is_message, self.view_options).view_options():
                         self.is_view = False
 
                     try:
@@ -58,7 +58,7 @@ class ViewOptionsDeleteContact(view.View):
         super().__init__(is_view, is_message)
         self.options = options
 
-    def options_delete(self):
+    def view_options(self):
         message.Message(self.is_view, self.is_message)
         print("+--------------------------------------+")
         print('|           BORRAR CONTACTO            |')
@@ -92,9 +92,11 @@ class ViewDeleteContact(view.View):
                             if id_contacto == 0:
                                 clear.Clear()
                                 break
+
                             if db().search_id_db(id_contacto) != []:
                                 db().delete_contact_id((id_contacto,))
                                 return True
+                            
                             else:
                                 self.is_view = True
                                 self.is_message = 'No existe el ID'

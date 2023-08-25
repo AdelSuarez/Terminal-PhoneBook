@@ -14,7 +14,7 @@ class CreateContact(view.View):
     def view_new_contact(self):
         while True:
             while True:
-                if  ViewOptionsNewContact(self.is_view, self.is_message, self.view_options).view_welcome():
+                if  ViewOptionsNewContact(self.is_view, self.is_message, self.view_options).view_options():
                     self.is_view = False
                 try:
                     self.option = int(input('| Introduce la opcion >> '))
@@ -48,7 +48,7 @@ class ViewOptionsNewContact(view.View):
         self.options = options
         
 
-    def view_welcome(self):
+    def view_options(self):
         clear.Clear()
         message.Message(self.is_view, self.is_message)
         print("+--------------------------------------+")
@@ -63,24 +63,27 @@ class ViewCreateNewContact(view.View):
         super().__init__(is_view, is_message)
         
     def new_contact(self):
-        go_back = True
+        go_back = False
         while True:
             try:
                 clear.Clear()
                 message.Message(self.is_view, self.is_message)
                 self.name = name_checker.NameChecker(self.is_view, self.is_message).name_checker('CREAR CONTACTO').strip()
                 if self.name == '0':
-                    go_back = False
+                    go_back = True
                     break
 
                 self.number = int(input('| Número: '))
+                if self.number == 0:
+                    go_back = True
+                    break
                 break
 
             except ValueError:
                 self.is_view = True
                 self.is_message = 'Introduce solo números'
 
-        if go_back:
+        if not go_back:
             db().create_contact(self.name, self.number)
             return True
 
