@@ -16,7 +16,7 @@ class CreateContact(view.View):
         while True:
             while True:
 
-                if  ViewOptionsNewContact(self.is_view, self.is_message, self.type_message, self.view_options).view_options():
+                if self.view_options_menu(self.view_options, 'NUEVO CONTACTO'):
                     self.is_view = False
 
                 try:
@@ -46,23 +46,6 @@ class CreateContact(view.View):
                 break
 
 
-class ViewOptionsNewContact(view.View):
-    def __init__(self, is_view, is_message, type_message, options) -> None:
-        super().__init__(is_view, is_message, type_message)
-        self.options = options
-        
-
-    def view_options(self) -> bool:
-        clear.Clear()
-        message.Message(self.is_view, self.is_message, self.type_message)
-        
-        print("+--------------------------------------+")
-        print('|            NUEVO CONTACTO            |')
-        self.view_option_menu(self.options)
-
-        return True
-
-
 class ViewCreateNewContact(view.View):
     def __init__(self, is_view, is_message, type_message) -> None:
         super().__init__(is_view, is_message, type_message)
@@ -75,7 +58,7 @@ class ViewCreateNewContact(view.View):
                 clear.Clear()
                 message.Message(self.is_view, self.is_message, self.type_message)
 
-                self.name = name_checker.NameChecker(self.is_view, self.is_message, self.type_message).name_checker('CREAR CONTACTO').strip()
+                self.name = name_checker.NameChecker(self.is_view, self.is_message, self.type_message).name_checker('CREAR CONTACTO')
 
                 if self.name == '0':
                     go_back = True

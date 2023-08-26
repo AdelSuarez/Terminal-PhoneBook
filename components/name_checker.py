@@ -19,7 +19,7 @@ class NameChecker(View):
                 print('| > 0 Regresar                         |')
 
 
-            print('| ° Introduce el nombre del contacto   |')
+            print('| ° Introduce los datos del contacto   |')
             print("+--------------------------------------+")
 
             name = input('| Nombre: ')
@@ -33,7 +33,7 @@ class NameChecker(View):
 
         self.is_view = False
 
-        return name
+        return name.strip()
 
 
             

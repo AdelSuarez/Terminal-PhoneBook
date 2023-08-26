@@ -35,8 +35,6 @@ class ViewContacts(view.View):
 				self.message_variables(True, 'Introduce solo números', 'error')
 
 
-
-
 	def view_all_contacts(self, database ):
 		message.Message(self.is_view, self.is_message, self.type_message)
 		print("+--------------------------------------+")

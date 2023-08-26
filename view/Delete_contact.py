@@ -18,8 +18,8 @@ class DeleteContact(view.View):
 
             while True:
                 while True:
-
-                    if ViewOptionsDeleteContact(self.is_view, self.is_message, self.type_message, self.view_options).view_options():
+                    
+                    if self.view_options_menu(self.view_options, 'BORRAR CONTACTO'):
                         self.is_view = False
 
                     try:
@@ -44,7 +44,7 @@ class DeleteContact(view.View):
 
                 elif self.option == 2:
 
-                    View_contacts.ViewContacts().all_contacts()
+                    View_contacts.ViewContacts(self.is_view, self.is_message, self.type_message).all_contacts()
                 
                 elif self.option == 0:
                     clear.Clear()
@@ -52,18 +52,6 @@ class DeleteContact(view.View):
         else:
             clear.Clear()
             print('Agenda vacía'.center(settings.SPACE, settings.CARACTER))
-
-class ViewOptionsDeleteContact(view.View):
-    def __init__(self, is_view, is_message, type_message, options) -> None:
-        super().__init__(is_view, is_message,type_message)
-        self.options = options
-
-    def view_options(self) -> bool:
-        message.Message(self.is_view, self.is_message, self.type_message)
-        print("+--------------------------------------+")
-        print('|           BORRAR CONTACTO            |')
-        self.view_option_menu(self.options)
-        return True
 
 
 class ViewDeleteContact(view.View):
@@ -77,7 +65,7 @@ class ViewDeleteContact(view.View):
                 message.Message(self.is_view, self.is_message, self.type_message)
 
 
-                self.name = name_checker.NameChecker(self.is_view, self.is_message, self.type_message).name_checker('BORRAR CONTACTO').strip()
+                self.name = name_checker.NameChecker(self.is_view, self.is_message, self.type_message).name_checker('BORRAR CONTACTO')
                 
                 if self.name =='0':
                     clear.Clear()
@@ -87,7 +75,10 @@ class ViewDeleteContact(view.View):
 
                 if  contact != []:
                     if len(contact) > 1:
-                        View_contacts.ViewContacts().view_all_contacts(db().search_name_db(self.name))
+
+                        self.is_view = False
+                        View_contacts.ViewContacts(self.is_view, self.is_message, self.type_message).view_all_contacts(db().search_name_db(self.name))
+                        
                         try:
                             id_contacto = int(input('| ID: '))
                             
