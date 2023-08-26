@@ -4,9 +4,10 @@ from components import name_checker, message
 from . import view
 
 class CreateContact(view.View):
-    def __init__(self, is_view, is_message) -> None:
-        super().__init__(is_view, is_message)
-        self.view_options = {
+    def __init__(self, is_view, is_message, type_message) -> None:
+        super().__init__(is_view, is_message, type_message)
+
+        self.view_options : dict[str : str]  = {
             'Presione 1': 'Crear contacto',
             'Presione 0': 'Regresar'
         }
@@ -14,23 +15,26 @@ class CreateContact(view.View):
     def view_new_contact(self):
         while True:
             while True:
-                if  ViewOptionsNewContact(self.is_view, self.is_message, self.view_options).view_options():
+
+                if  ViewOptionsNewContact(self.is_view, self.is_message, self.type_message, self.view_options).view_options():
                     self.is_view = False
+
                 try:
                     self.option = int(input('| Introduce la opcion >> '))
+
                     if not(0 <= self.option < len(self.view_options) ):
-                        self.is_view = True
-                        self.is_message = 'Opción incorrecta'                        
+                        
+                        self.message_variables(True, 'Opción incorrecta', 'warning')
                         continue
+
                     break
                 except Exception:
-                    self.is_view = True
-                    self.is_message = 'Introduce solo números'
+                    self.message_variables(True, 'Introduce solo números', 'error')
 
             if self.option == 1:
-                if ViewCreateNewContact(self.is_view, self.is_message).new_contact():
-                    self.is_view = True
-                    self.is_message = 'Contacto creado con exito'
+                if ViewCreateNewContact(self.is_view, self.is_message, self.type_message).new_contact():
+
+                    self.message_variables(True, 'Contacto creado con exito', 'approved')
 
             elif self.option == 0:
                 clear.Clear()
@@ -43,45 +47,51 @@ class CreateContact(view.View):
 
 
 class ViewOptionsNewContact(view.View):
-    def __init__(self, is_view, is_message, options) -> None:
-        super().__init__(is_view, is_message)
+    def __init__(self, is_view, is_message, type_message, options) -> None:
+        super().__init__(is_view, is_message, type_message)
         self.options = options
         
 
-    def view_options(self):
+    def view_options(self) -> bool:
         clear.Clear()
-        message.Message(self.is_view, self.is_message)
+        message.Message(self.is_view, self.is_message, self.type_message)
+        
         print("+--------------------------------------+")
         print('|            NUEVO CONTACTO            |')
         self.view_option_menu(self.options)
+
         return True
 
 
-
 class ViewCreateNewContact(view.View):
-    def __init__(self, is_view, is_message) -> None:
-        super().__init__(is_view, is_message)
+    def __init__(self, is_view, is_message, type_message) -> None:
+        super().__init__(is_view, is_message, type_message)
         
-    def new_contact(self):
-        go_back = False
+    def new_contact(self) -> bool:
+        go_back : bool = False
+
         while True:
             try:
                 clear.Clear()
-                message.Message(self.is_view, self.is_message)
-                self.name = name_checker.NameChecker(self.is_view, self.is_message).name_checker('CREAR CONTACTO').strip()
+                message.Message(self.is_view, self.is_message, self.type_message)
+
+                self.name = name_checker.NameChecker(self.is_view, self.is_message, self.type_message).name_checker('CREAR CONTACTO').strip()
+
                 if self.name == '0':
                     go_back = True
                     break
 
                 self.number = int(input('| Número: '))
+
                 if self.number == 0:
                     go_back = True
                     break
+
                 break
 
             except ValueError:
-                self.is_view = True
-                self.is_message = 'Introduce solo números'
+                self.message_variables(True, 'Introduce solo números', 'error')
+
 
         if not go_back:
             db().create_contact(self.name, self.number)
