@@ -4,9 +4,10 @@ from settings import settings, clear
 from . import view, View_contacts, View_contacts
 
 class DeleteContact(view.View):
-    def __init__(self, is_view, is_message) -> None:
-        super().__init__(is_view, is_message)
-        self.view_options = {
+    def __init__(self, is_view, is_message, type_message) -> None:
+        super().__init__(is_view, is_message, type_message)
+        
+        self.view_options : dict[str:str] = {
             'Presione 1': 'Borrar',
             'Presione 2': 'Ver contactos',
             'Presione 0': 'Regresar',
@@ -18,27 +19,26 @@ class DeleteContact(view.View):
             while True:
                 while True:
 
-                    if ViewOptionsDeleteContact(self.is_view, self.is_message, self.view_options).view_options():
+                    if ViewOptionsDeleteContact(self.is_view, self.is_message, self.type_message, self.view_options).view_options():
                         self.is_view = False
 
                     try:
                         self.option = int(input('| Introduce la opcion >> '))
                         if not(0 <= self.option < len(self.view_options) ):
-                            self.is_view = True
-                            self.is_message = 'Opción incorrecta' 
+
+                            self.message_variables(True, 'Opcíon incorrecta', 'warning')
                             clear.Clear()
                             continue
                         break
                     except Exception:
-                        self.is_view = True
-                        self.is_message = 'Introduce solo números'
+
+                        self.message_variables(True, 'Introduce solo números', 'error')
                         clear.Clear()
 
-                
                 if self.option == 1:
-                    if ViewDeleteContact(self.is_view, self.is_message).delete_contact():
-                        self.is_view = True
-                        self.is_message = 'Contacto borrado con éxito'
+                    if ViewDeleteContact(self.is_view, self.is_message, self.type_message).delete_contact():
+                        
+                        self.message_variables(True, 'Contacto borrado con éxito', 'approved')
                         clear.Clear()
 
 
@@ -54,12 +54,12 @@ class DeleteContact(view.View):
             print('Agenda vacía'.center(settings.SPACE, settings.CARACTER))
 
 class ViewOptionsDeleteContact(view.View):
-    def __init__(self, is_view, is_message, options) -> None:
-        super().__init__(is_view, is_message)
+    def __init__(self, is_view, is_message, type_message, options) -> None:
+        super().__init__(is_view, is_message,type_message)
         self.options = options
 
-    def view_options(self):
-        message.Message(self.is_view, self.is_message)
+    def view_options(self) -> bool:
+        message.Message(self.is_view, self.is_message, self.type_message)
         print("+--------------------------------------+")
         print('|           BORRAR CONTACTO            |')
         self.view_option_menu(self.options)
@@ -67,15 +67,17 @@ class ViewOptionsDeleteContact(view.View):
 
 
 class ViewDeleteContact(view.View):
-    def __init__(self, is_view, is_message) -> None:
-        super().__init__(is_view, is_message)
+    def __init__(self, is_view, is_message, type_message) -> None:
+        super().__init__(is_view, is_message, type_message)
 
-    def delete_contact(self):
+    def delete_contact(self) -> bool:
         while True:
             if db().all_contacts() != []:
                 clear.Clear()
-                message.Message(self.is_view, self.is_message)
-                self.name = name_checker.NameChecker(self.is_view, self.is_message).name_checker('BORRAR CONTACTO').strip()
+                message.Message(self.is_view, self.is_message, self.type_message)
+
+
+                self.name = name_checker.NameChecker(self.is_view, self.is_message, self.type_message).name_checker('BORRAR CONTACTO').strip()
                 
                 if self.name =='0':
                     clear.Clear()
@@ -94,25 +96,20 @@ class ViewDeleteContact(view.View):
                                 break
 
                             if db().search_id_db(id_contacto) != []:
-                                db().delete_contact_id((id_contacto,))
+                                db().delete_contact_id(id_contacto)
                                 return True
                             
                             else:
-                                self.is_view = True
-                                self.is_message = 'No existe el ID'
+                                self.message_variables(True, 'No existe el ID', 'warning')
                                 
                         except ValueError:
-                            self.is_view = True
-                            self.is_message = 'Introduce solo números'
+                            self.message_variables(True, 'Introduce solo números', 'error')
                         
-
-
                     else:
-                        db().delete_contact_name((self.name, ))
+                        db().delete_contact_name(self.name)
                         return True
                 else:
-                    self.is_view = True
-                    self.is_message = 'No existe el contacto'
+                    self.message_variables(True, 'No existe el contacto', 'warning')
 
             else:
                 clear.Clear()
