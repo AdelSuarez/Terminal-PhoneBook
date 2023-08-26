@@ -15,7 +15,7 @@ class Manager(View):
                 Create_contact.CreateContact(self.is_view, self.is_message, self.type_message).view_new_contact()
 
             elif self.option == 2:
-                View_contacts.ViewContacts().all_contacts()
+                View_contacts.ViewContacts(self.is_view, self.is_message, self.type_message).all_contacts()
 
             elif self.option == 3:
                 clear.Clear()
