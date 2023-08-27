@@ -54,15 +54,17 @@ class ViewCreateNewContact(view.View):
         go_back : bool = False
 
         while True:
+            
+            clear.Clear()
+            message.Message(self.is_view, self.is_message, self.type_message)
+
+            self.name = name_checker.NameChecker(self.is_view, self.is_message, self.type_message).name_checker('CREAR CONTACTO')
+
+            if self.name == '0':
+                go_back = True
+                break
+            
             try:
-                clear.Clear()
-                message.Message(self.is_view, self.is_message, self.type_message)
-
-                self.name = name_checker.NameChecker(self.is_view, self.is_message, self.type_message).name_checker('CREAR CONTACTO')
-
-                if self.name == '0':
-                    go_back = True
-                    break
 
                 self.number = int(input('| Número: '))
 
