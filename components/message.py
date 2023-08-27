@@ -16,6 +16,7 @@ class Message(View):
     def message(self):
         if self.is_view:
 
+            # Select the color according to the parameter
             for type, color in self.message_colors.items():
                 if type == self.type_message:
                     print(f'{color}', end='')

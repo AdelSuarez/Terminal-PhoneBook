@@ -19,22 +19,8 @@ class EditContact(view.View):
         self.is_view = False
         if db().all_contacts() != []:
             while True:
-                while True:            
 
-                    self.view_options_menu(self.view_options, 'EDITAR CONTACTO')
-
-
-                    try:
-                        self.option = int(input('| Introduce la opcion >> '))
-
-                        if not(0 <= self.option < len(self.view_options)):
-
-                            self.message_variables(True, 'Opción incorrecta', 'warning')
-                            continue
-                        break
-
-                    except ValueError:
-                        self.message_variables(True, 'Introduce solo números', 'error')
+                self.menu_edit()
 
                 if self.option == 1:
 
@@ -57,6 +43,28 @@ class EditContact(view.View):
         else:
             clear.Clear()
             print('Agenda vacía'.center(settings.SPACE, settings.CARACTER))
+
+
+
+    def menu_edit(self):
+        while True:            
+
+            self.view_options_menu(self.view_options, 'EDITAR CONTACTO')
+
+
+            try:
+                self.option = int(input('| Introduce la opcion >> '))
+
+                if not(0 <= self.option < len(self.view_options)):
+
+                    self.message_variables(True, 'Opción incorrecta', 'warning')
+                    continue
+                break
+
+            except ValueError:
+                self.message_variables(True, 'Introduce solo números', 'error')
+
+
 
 
 class ViewEditName(view.View):
@@ -89,11 +97,13 @@ class ViewEditName(view.View):
                         if id_contacto == 0:
                             break
 
-                        self.new_name, self.is_correct =  self.input_new_name()
+                        self.new_name, self.is_correct =  InputNewData(self.is_view, self.is_message, self.type_message).input_new_name('name')
 
-                        if self.is_correct:
+                        if self.is_correct and self.new_name != '0':
                             db().update_name_id(self.new_name, id_contacto)
-                            return True     
+                            return True
+                        elif self.new_name == '0':
+                            break
 
 
                     except ValueError:
@@ -103,41 +113,16 @@ class ViewEditName(view.View):
 
                     self.is_view = False
 
-                    self.new_name, self.is_correct =  self.input_new_name()
+                    self.new_name, self.is_correct =  InputNewData(self.is_view, self.is_message, self.type_message).input_new_name('name')
                     
-                    if self.new_name == '0':
-                        break
 
-                    elif self.is_correct and self.new_name != '0':
+                    if self.is_correct and self.new_name != '0':
                         db().update_name(self.new_name, self.name)
                         return True
+                    elif self.new_name == '0':
+                        break
             else:
                 self.message_variables(True, 'No existe el contacto', 'warning')
-
-    def input_new_name(self) -> tuple:
-
-        is_view_go_back = False
-        while True:
-
-            if self.is_view:
-                clear.Clear()
-                message.Message(self.is_view, self.is_message, self.type_message)
-            print("+--------------------------------------+")
-            
-            if is_view_go_back:
-                print('| > 0 Regresar                         |')
-
-            print('| ° Introduce el nuevo nombre:         |')
-            print("+--------------------------------------+")
-
-            new_name = input('| >> ')
-
-            if (len(new_name) == 0):
-                self.message_variables(True, 'Por Favor introduce el nombre', 'warning')
-                is_view_go_back = True
-                continue
-
-            return (new_name.strip(), True)
         
 
 
@@ -169,9 +154,9 @@ class ViewEditNumber(view.View):
                         if id_contacto == 0:
                                 break
                     
-                        self.new_number, self.is_correct = self.input_new_number()
+                        self.new_number, self.is_correct = InputNewData(self.is_view, self.is_message, self.type_message).input_new_name('number')
                         if self.is_correct:
-                            db().update_number_id((self.new_number, id_contacto))
+                            db().update_number_id((int(self.new_number), id_contacto))
                             return True
                         
                     except ValueError:
@@ -180,26 +165,50 @@ class ViewEditNumber(view.View):
                 else:
                     self.is_view = False
 
-                    self.new_number, self.is_correct = self.input_new_number()
-                        
-                    if self.is_correct:
-                        db().update_number(self.new_number, self.name)
-                        return True
-
+                    self.new_number, self.is_correct = InputNewData(self.is_view, self.is_message, self.type_message).input_new_name('number')
+                    
+                    try:
+                        if self.is_correct:
+                            db().update_number(int(self.new_number), self.name)
+                            return True
+                    except ValueError:
+                        self.message_variables(True, 'Introduce solo números', 'error')
             else:
                 self.message_variables(True, 'No existe el contacto', 'warning')
 
-    def input_new_number(self) -> tuple:
+
+
+class InputNewData(view.View):
+    def __init__(self, is_view, is_message, type_message) -> None:
+        super().__init__(is_view, is_message, type_message)
+        
+
+    def input_new_name(self, option : str) -> tuple:
+
+        is_view_go_back = False
         while True:
+
             if self.is_view:
                 clear.Clear()
                 message.Message(self.is_view, self.is_message, self.type_message)
-            try:
-                print("+--------------------------------------+")
-                print('| Introduce el nuevo número:           |')
-                print("+--------------------------------------+")
-                new_number = int(input('| >> '))
-                return (new_number, True)
+            print("+--------------------------------------+")
             
-            except ValueError:
-                self.message_variables(True, 'Introduce el número', 'warning')
+            if is_view_go_back:
+                print('| > 0 Regresar                         |')
+
+            if option == 'name':
+                print('| ° Introduce el nuevo nombre:         |')
+
+            elif option == 'number':
+                print('| Introduce el nuevo número:           |')
+                
+            print("+--------------------------------------+")
+
+            new_data = input('| >> ')
+
+            if (len(new_data) == 0):
+                self.message_variables(True, 'Por Favor introduce el dato', 'warning')
+                is_view_go_back = True
+                continue
+
+            return (new_data.strip(), True)
