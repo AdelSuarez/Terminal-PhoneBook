@@ -21,6 +21,7 @@ class EditContact(view.View):
             while True:
 
                 self.menu_edit()
+                self.is_view = False
 
                 if self.option == 1:
 
@@ -75,10 +76,7 @@ class ViewEditName(view.View):
     def edit_name(self):
         self.is_view = False
         while True:
-            clear.Clear()
-            message.Message(self.is_view, self.is_message, self.type_message)
-
-            self.name = name_checker.NameChecker(self.is_view, self.is_message, self.type_message).name_checker('EDITAR NOMBRE')
+            self.name = ViewNameChecker(self.is_view, self.is_message, self.type_message).view('EDITAR NOMBRE')
 
             if self.name == '0':
                 break
@@ -123,9 +121,7 @@ class ViewEditName(view.View):
                         break
             else:
                 self.message_variables(True, 'No existe el contacto', 'warning')
-        
-
-
+                
 class ViewEditNumber(view.View):
     def __init__(self, is_view, is_message, type_message) -> None:
         super().__init__(is_view, is_message, type_message)
@@ -134,10 +130,7 @@ class ViewEditNumber(view.View):
 
         self.is_view = False
         while True:
-            clear.Clear()
-            message.Message(self.is_view, self.is_message, self.type_message)
-
-            self.name = name_checker.NameChecker(self.is_view, self.is_message, self.type_message).name_checker('EDITAR NUMERO')
+            self.name = ViewNameChecker(self.is_view, self.is_message, self.type_message).view('EDITAR NUMERO')
 
             if self.name == '0':
                 break
@@ -166,7 +159,7 @@ class ViewEditNumber(view.View):
                     self.is_view = False
 
                     self.new_number, self.is_correct = InputNewData(self.is_view, self.is_message, self.type_message).input_new_name('number')
-                    
+
                     try:
                         if self.is_correct:
                             db().update_number(int(self.new_number), self.name)
@@ -212,3 +205,16 @@ class InputNewData(view.View):
                 continue
 
             return (new_data.strip(), True)
+        
+class ViewNameChecker(view.View):
+    def __init__(self, is_view, is_message, type_message) -> None:
+        super().__init__(is_view, is_message, type_message)
+
+        
+    def view(self, title : str):
+        clear.Clear()
+        message.Message(self.is_view, self.is_message, self.type_message)
+
+        name = name_checker.NameChecker(self.is_view, self.is_message, self.type_message).name_checker(title)
+
+        return name
