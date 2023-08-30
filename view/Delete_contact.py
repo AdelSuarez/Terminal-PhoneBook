@@ -86,8 +86,8 @@ class ViewDeleteContact(view.View):
                                 clear.Clear()
                                 break
 
-                            if db().search_id_db(id_contacto) != []:
-                                db().delete_contact_id(id_contacto)
+                            if db().search_id_db(id_contacto, self.name) != []:
+                                db().delete_contact_id(id_contacto, self.name)
                                 return True
                             
                             else:

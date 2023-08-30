@@ -94,14 +94,18 @@ class ViewEditName(view.View):
 
                         if id_contacto == 0:
                             break
+                        
+                        if db().search_id_db(id_contacto, self.name) != []:
+                            self.new_name, self.is_correct =  InputNewData(self.is_view, self.is_message, self.type_message).input_new_name('name')
 
-                        self.new_name, self.is_correct =  InputNewData(self.is_view, self.is_message, self.type_message).input_new_name('name')
+                            if self.is_correct and self.new_name != '0':
+                                db().update_name_id(self.new_name, id_contacto)
+                                return True
+                            elif self.new_name == '0':
+                                break
+                        else:
+                            self.message_variables(True, 'No existe el ID', 'warning')
 
-                        if self.is_correct and self.new_name != '0':
-                            db().update_name_id(self.new_name, id_contacto)
-                            return True
-                        elif self.new_name == '0':
-                            break
 
 
                     except ValueError:
@@ -146,11 +150,19 @@ class ViewEditNumber(view.View):
                         id_contacto = int(input('| ID: '))
                         if id_contacto == 0:
                                 break
-                    
-                        self.new_number, self.is_correct = InputNewData(self.is_view, self.is_message, self.type_message).input_new_name('number')
-                        if self.is_correct:
-                            db().update_number_id((int(self.new_number), id_contacto))
-                            return True
+                        if db().search_id_db(id_contacto, self.name) != []:
+
+                            self.new_number, self.is_correct = InputNewData(self.is_view, self.is_message, self.type_message).input_new_name('number')
+
+                            if self.new_number == '0':
+                                break
+
+                            elif self.is_correct and self.new_number != '0':
+                                db().update_number_id((int(self.new_number), id_contacto))
+                                return True
+                        else:
+                            self.message_variables(True, 'No existe el ID', 'warning')
+
                         
                     except ValueError:
                         self.message_variables(True, 'Introduce solo números', 'error')
@@ -161,9 +173,13 @@ class ViewEditNumber(view.View):
                     self.new_number, self.is_correct = InputNewData(self.is_view, self.is_message, self.type_message).input_new_name('number')
 
                     try:
-                        if self.is_correct:
+                        if self.is_correct and self.new_number != '0':
                             db().update_number(int(self.new_number), self.name)
                             return True
+                        
+                        elif self.new_number == '0':
+                            break
+                            
                     except ValueError:
                         self.message_variables(True, 'Introduce solo números', 'error')
             else:
